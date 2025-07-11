@@ -1,0 +1,147 @@
+/* package Lebensraum;
+
+public class instanzen{
+    // init variables
+
+    private String name;
+    private double kapital;
+    private int einkommen;
+    private int ausgaben;
+    private int profit;
+    private double liquidität;
+
+    public instanzen(String name, double kapital, int einkommen, int ausgaben, double liquidität) {
+        this.name = name;
+        this.kapital = kapital;
+        this.einkommen = einkommen;
+        this.ausgaben = ausgaben;
+        this.liquidität = liquidität;
+        this.setProfit(this.einkommen, this.ausgaben);
+        this.updateLiq(this.kapital, this.ausgaben, this.liquidität);
+    }
+
+    // get/set
+    public String getName() {return name;}
+    public void setName(String s) {this.name = s;}
+    public double getKapital() {return kapital;}
+    public void setKapital(double d) {this.kapital = d;}
+    public int getEinkommen() {return einkommen;}
+    public void setEinkommen(int i) {this.einkommen = i;}
+    public int getAusgaben() {return ausgaben;}
+    public void setAusgaben(int i) {this.ausgaben = i;}
+    public int getProfit() {return profit;}
+    public void setProfit(int einkommen, int ausgaben) {this.profit = einkommen - ausgaben;}
+    public double getLiquidität() {return liquidität;}
+    public void setLiquidität(double d) {this.liquidität = d;}
+
+    //Methoden
+    public void sterben() {
+        this.einkommen = 0;
+        this.ausgaben = 0;
+        System.out.println(name + " starb");
+    }
+    	
+    public void updateLiq(double kapital, int profit, double liquidität) {
+        liquidität = liquidität + profit;
+        if (liquidität < 0) {
+            kapital += liquidität;
+            liquidität = 0;
+        }
+        if (kapital < 0) {
+            sterben();
+        } 
+    
+    }
+}
+    
+  
+    /* super(name, kapital, einkommen, ausgaben, liquidität); 
+
+    /*package Lebensraum;
+
+public class mensch extends instanzen {
+    private int alter;
+    private String job;
+
+    public mensch(int alter, String job, String name, double kapital, int einkommen, int ausgaben, double liquidität) {
+        super(name, kapital, einkommen, ausgaben, liquidität);
+        this.alter = alter;
+        this.job = job;
+    }
+
+    public int getAlter() {return alter;}
+    public void setAlter(int i) {this.alter = i;}
+    public String getJob() {return job;}
+    public void setJob(String s) {this.job  = s;}
+
+
+    public void findejob() { // alle werden Bauern
+        setJob("Bauer");
+        setEinkommen(50000);
+    }
+
+    public void leben() {
+        // int einkommen, int ausgaben, int alter, int kapital, double liquidität, int profit
+        //kapital
+        this.setKapital(this.getKapital() * 1.07); //investitionen
+        this.updateLiq(this.getKapital(), this.getProfit(), this.getLiquidität());
+        if (this.getLiquidität() > 0) {
+            int deposit = (int) this.getLiquidität() / 2;
+            int k = getKapital();
+            this.setKapital(k + deposit);
+            this.setLiquidität(deposit);
+        }
+
+        //alter & job
+        int alter = this.getAlter() + 1;
+        if (alter == 18) {
+            findejob();
+        }
+        else if (alter > 18 && alter < 67) {
+            this.setEinkommen(this.getEinkommen() * 1.04);;
+            this.setAusgaben(this.getAusgaben() * 1.01);
+        }
+        else {setEinkommen(0);}
+        setAlter(alter);
+    }
+}
+
+/* package Lebensraum;
+
+import java.util.Dictionary;
+import java.util.Hashtable;
+import java.util.Enumeration;
+
+public class Main {
+    
+    public static void main(String[] args) {
+
+        //jobs und deren Gehalt
+        Dictionary<String, Integer> jobs= new Hashtable<>();
+        jobs.put("Arzt", 900000);
+        jobs.put("Handwerker", 55000);
+        jobs.put("Bauer",50000);
+
+        //menschen
+        mensch person1 = new mensch (30, "Arzt", "Joschua", 150000, jobs.get("Arzt"), 700000, 500000);
+        mensch person2 = new mensch(40, "Handwerker", "Herbert", 80000, jobs.get("Handwerker"), 50000, 80000);
+        mensch person3 = new mensch(12, "Bauer", "Jonkler", 100, jobs.get("Bauer"), 95, 100);
+        mensch person4 = new mensch(65, "Bauer", "Guthrudh", 1000000, jobs.get("Bauer"), 100000, 100000);
+        mensch[] menschen = {person1, person2, person3, person4};
+
+        //simulate for len 10
+        int rohstoffe = 100;
+
+        int zyklus_len = 10;
+        for (int i = 0; i < zyklus_len; i++){
+            markt m = new markt(rohstoffe);
+            rohstoffe = m.setRohstoffe(); //aus markt in main ziehen
+            System.out.println("Jahr" + i);
+            for (mensch p : menschen) {
+                p.leben();
+            }
+            /* simuliere() 
+        }
+    }
+}
+
